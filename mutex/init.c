@@ -6,29 +6,47 @@ int pthread_mutex_init(pthread_mutex_t *restrict mutex, const pthread_mutexattr_
 #include <stdio.h>
 #include <pthread.h>
 
-void *my_thread_func(void *arg)
-{
-    pthread_mutex_t *mutex = (pthread_mutex_t *)arg;
-    
-    pthread_mutex_lock(mutex); // Acquire the mutex
-    // Critical section: access shared resource
+pthread_mutex_t my_mutex;
+
+void *thread_func(void *arg) {
+    // ... critical section protected by the mutex ...
+    pthread_mutex_lock(&my_mutex);
+    // ... critical section code ...
     printf("Hello from thread!\n");
-    pthread_mutex_unlock(mutex); // Release the mutex
+    pthread_mutex_unlock(&my_mutex);
     return NULL;
 }
 
 
-int main()
-{
-    pthread_mutex_t mutex;
-    pthread_mutex_init(&mutex, NULL); // Initialize the mutex
+#include <stdio.h>
+#include <pthread.h>
 
+pthread_mutex_t my_mutex;
+
+void *thread_func(void *arg) {
+    // ... critical section protected by the mutex ...
+    pthread_mutex_lock(&my_mutex);
+    // ... critical section code ...
+    pthread_mutex_unlock(&my_mutex);
+    return NULL;
+}
+
+int main() {
     pthread_t thread_id;
-    pthread_create(&thread_id, NULL, my_thread_func, &mutex);
 
+    // Initialize the mutex
+    pthread_mutex_init(&my_mutex, NULL);
+
+    // Create a thread
+    pthread_create(&thread_id, NULL, thread_func, NULL);
+
+    // ... other code ...
+
+    // Join the thread
     pthread_join(thread_id, NULL);
 
-    pthread_mutex_destroy(&mutex); // Destroy the mutex
+    // Destroy the mutex
+    pthread_mutex_destroy(&my_mutex);
 
     return 0;
 }
