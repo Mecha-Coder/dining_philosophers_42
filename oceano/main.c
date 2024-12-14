@@ -1,5 +1,8 @@
 #include "philo.h"
 
+// https://medium.com/@jalal92/the-dining-philosophers-7157cc05315
+// https://nafuka11.github.io/philosophers-visualizer/
+
 int main(int ac, char **av)
 {
     t_data data;
@@ -15,7 +18,7 @@ int main(int ac, char **av)
         // 3) 
         start_simulaltion(&data);
 
-        // 4) phile full | 1 philo die -> Free allocated memory
+        // 4) philo done || 1 philo die -> Free allocated memory
         clean_up(&data);
     }   
     else
