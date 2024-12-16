@@ -6,15 +6,17 @@
 /*   By: jpaul <jpaul@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 17:41:37 by jpaul             #+#    #+#             */
-/*   Updated: 2024/12/12 19:34:02 by jpaul            ###   ########.fr       */
+/*   Updated: 2024/12/16 15:40:09 by jpaul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
 /*
-Purpose:  
-- Get current time in milliseconds
+get_time
+=========
+Purpose 
+- Get current time in microseconds
 - Type uint64_t ensures variable declared exactly 64 bits
 
 ============================================================================
@@ -42,14 +44,14 @@ uint64_t get_time(void)
 {
 	struct timeval	t;
 
-	if (gettimeofday(&t, NULL) == -1)
-	    err_msg("get_time: failed gettimeofday()");
-    return ((t.tv_sec * 1000000) + t.tv_usec);
+	check_error("gettimeofday", gettimeofday(&t, NULL));
+    return ((t.tv_sec * (uint64_t)1000000) + t.tv_usec);
 }
 
 /*
 int main()
 {
     printf("%lu\n", get_time());
+    printf("%lu\n", ULONG_MAX);
 }
 */

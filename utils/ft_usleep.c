@@ -6,7 +6,7 @@
 /*   By: jpaul <jpaul@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 18:57:19 by jpaul             #+#    #+#             */
-/*   Updated: 2024/12/12 19:43:53 by jpaul            ###   ########.fr       */
+/*   Updated: 2024/12/16 15:37:52 by jpaul            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 Purpose: 
 - Custom/improved version of usleep function
 - WHY! usleep is not precise and timing differ from pc to pc
+- Best performance usleep(10)
 */
 void ft_usleep(uint64_t microsec)
 {
@@ -26,19 +27,21 @@ void ft_usleep(uint64_t microsec)
         usleep(10);
 }
 
-
+/*
 int main()
 {
+    int i = 30;
     uint64_t start;
     uint64_t end;
-    uint64_t set;
+    int set;
     
-    set = 80000;
-    start = get_time();
-    // ft_usleep(set);
-    usleep(set);
-    end = get_time();
-
-    printf("Set    : %ld microsec\n", set);
-    printf("Actual : %ld microsec\n", end - start);
+    set = 20000;
+    while (i--)
+    {
+        start = get_time();
+        ft_usleep(set);
+        end = get_time();
+        printf("%lu\n", end - start);
+    }
 }
+*/
