@@ -54,12 +54,7 @@
 // STRUCT
 
 typedef pthread_mutex_t	t_mutex;
-
-typedef struct s_data
-{
-	uint64_t	start_time;
-	t_mutex		print_mutex;
-}	t_data;
+typedef struct s_data t_data;
 
 typedef struct s_philo
 {
@@ -67,6 +62,16 @@ typedef struct s_philo
 	pthread_t	thread;
 	t_data		*data;
 }	t_philo;
+
+
+struct s_data
+{
+	int			philo_no;
+	uint64_t	start_time;
+	t_mutex		print_mutex;
+	t_philo		*philo_l;
+};
+
 
 // =====================================================================
 // PROTOPYPE

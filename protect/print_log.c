@@ -36,6 +36,9 @@ void print_log(int id, char *task, t_data *data)
 }
 
 /* */
+
+#define ALPHA "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\n"
+
 void *philo_routine(void *arg)
 {
     t_philo *philo;
@@ -45,34 +48,52 @@ void *philo_routine(void *arg)
 
     while (i--)
     {
-        print_log(philo->id, LOG_EAT, philo->data);
-        ft_usleep(2000000);
+        print_log(philo->id, ALPHA, philo->data);
+        ft_usleep(100000);
     }
     return (NULL);
+}
+
+
+int init_philo(t_data *data)
+{
+    int i;
+    t_philo *philo;
+
+    philo = (t_philo *)malloc(sizeof(t_philo) * data->philo_no);
+    if (philo == NULL)
+        return (ERROR);
+    
+    i = -1;    
+    while (++i < data->philo_no)
+    {
+        philo[i].id = i + 1;
+        philo[i].data = data;
+        if (pthread_create(&philo[i].thread, NULL, philo_routine, &philo[i]) != 0)
+            return (error_msg("pthread_create"));
+    }
+
+    i = -1;
+    while (++i < data->philo_no)
+    {
+        if (pthread_join(philo[i].thread, NULL))
+            return (error_msg("pthread_join"));
+    }
+    
+    return (TRUE);
 }
 
 int main()
 {
     t_data data;
-    t_philo philo_1;
-    t_philo philo_2;
 
+    pthread_mutex_init(&data.print_mutex, NULL);
+    data.philo_no = 5;
     data.start_time = get_time();
-    
-    if (pthread_mutex_init(&data.print_mutex, NULL))
-        return ()
 
-    philo_1.id = 1;
-    philo_2.id = 2;
-    philo_1.data = &data;
-    philo_2.data = &data;
+    if (init_philo(&data) == ERROR)
+        return (error_msg("init_philo"));
 
-    pthread_create(&philo_1.thread, NULL, philo_routine, &philo_1);
-    pthread_create(&philo_2.thread, NULL, philo_routine, &philo_2);
+    pthread_mutex_destroy(&data.print_mutex);
 
-
-    do_thread(&philo_1.thread, THREAD_JOIN, NULL, NULL);
-    do_thread(&philo_2.thread, THREAD_JOIN, NULL, NULL);
-
-    do_mutex(&data.print_mutex, MUTEX_DESTROY);
 }
