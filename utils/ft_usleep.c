@@ -16,13 +16,21 @@
 Purpose: 
 - Custom/improved version of usleep function
 - WHY! usleep is not precise and timing differ from pc to pc
-- Best performance usleep(10)
+
+==========================================================================
+Futher improvement:
+
+- Best precision usleep(10), but add load to CPU
+- Solution: if microsec > 60,000 = 60 millisec
+- Sleep until the last 60,000, then resume calculation
 */
 void ft_usleep(uint64_t microsec)
 {
     uint64_t start;
 
     start = get_time();
+    if (microsec > 60000)
+        usleep(microsec - 60000);
     while (get_time() - start < microsec)
         usleep(10);
 }
@@ -45,3 +53,5 @@ int main()
     }
 }
 */
+ 
+

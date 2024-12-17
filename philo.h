@@ -23,21 +23,16 @@
 # define RESET "\033[0m"
 
 // >> Log message
-# define LOG_TAKE 0
-# define LOG_EAT 1
-# define LOG_SLEEP 2
-# define LOG_THINK 3
-# define LOG_DIE 4
+# define TAKE "has taken fork"
+# define EAT "is eating"
+# define SLEEP "is sleeping"
+# define THINK "is thinking"
+# define DIE "died"
 
-// >> Mutex flow
-# define MUTEX_INIT 0
-# define MUTEX_LOCK 1
-# define MUTEX_UNLOCK 2
-# define MUTEX_DESTROY 3
-
-// >> Thread flow
-# define THREAD_CREATE 0
-# define THREAD_JOIN 1
+// >> Return state
+#define TRUE 1
+#define FALSE 0
+#define ERROR -1
 
 // =====================================================================
 // LIBRARY
@@ -45,7 +40,6 @@
 # include <stdio.h>    // printf
 # include <stdlib.h>   // malloc, free
 # include <unistd.h>   // write, usleep
-# include <stdbool.h>
 # include <pthread.h>  // mutex  : init destroy lock unlock
 //                     // thread : create join
 # include <sys/time.h> // gettimeofday
@@ -78,15 +72,11 @@ typedef struct s_philo
 // PROTOPYPE
 
 // >>> Protect
-void		print_log(uint64_t now, int id, int task, t_data *data);
+void 		print_log(int id, char *task, t_data *data);
 
 // >>> Utils
-void		do_thread(pthread_t *t, int action, void *(*f)(void *), void *data);
-void		do_mutex(t_mutex *m, int action);
-void		check_error(char *issue, int result);
 void		ft_usleep(uint64_t millisec);
-void		error_exit(char *issue);
-
+int			error_msg(char *issue);
 uint64_t	get_time(void);
 
 #endif

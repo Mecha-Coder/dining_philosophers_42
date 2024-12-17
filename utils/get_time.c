@@ -44,7 +44,8 @@ uint64_t get_time(void)
 {
 	struct timeval	t;
 
-	check_error("gettimeofday", gettimeofday(&t, NULL));
+	if (gettimeofday(&t, NULL) != 0)
+        return (0);
     return ((t.tv_sec * (uint64_t)1000000) + t.tv_usec);
 }
 
