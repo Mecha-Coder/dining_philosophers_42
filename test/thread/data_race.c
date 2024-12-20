@@ -21,6 +21,9 @@ int read_balance()
 
 void* deposit(void *amount)
 {
+    int i;
+
+    
     pthread_mutex_lock(&mutex);
 
     int account_balance = read_balance();
